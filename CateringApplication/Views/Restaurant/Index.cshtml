@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CateringApplication.Models.Restaurant>
+
+@{
+    ViewBag.Title = ViewBag.CurrentTown;
+}
+
+<h2>@ViewBag.CurrentTown</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { townName = ViewBag.CurrentTown })
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Index", "Food", new { restaurantName = item.Name }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.RestaurantID }) 
+            @Html.ActionLink("Delete", "Delete", new { id = item.RestaurantID })
+        </td>
+    </tr>
+}
+
+</table>

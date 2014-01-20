@@ -1,0 +1,86 @@
+﻿@model CateringApplication.ViewModels.TownIndex
+
+@{
+    ViewBag.Title = "Town";
+}
+
+@using (Html.BeginForm("Index", "Town", FormMethod.Get))
+{
+    <p>
+        Find by restaurant name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        @Html.Hidden("showAllRestaurants", true)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<h2>Select your town</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+           
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Towns) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Index", "Restaurant", new { townName = item.Name }, null)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TownID }) |
+            @Html.ActionLink("Delete", "Delete", new {  id = item.TownID  })
+        </td>
+    </tr>
+}
+    </table>
+
+@if (ViewBag.ShowAllRestaurants)
+{
+    <p>
+    @Html.ActionLink("Hide", "Index")
+    </p>
+} else
+{
+    <p>
+    @Html.ActionLink("Show All Restaurants", "Index", new { showAllRestaurants = true })
+    </p>
+}
+
+
+@if (Model.Restaurants != null)
+{
+    <h3>Restaurants from all towns</h3>
+<table>
+    <tr>
+        <th>Town</th>
+        <th>@Html.ActionLink("Restaurant", "Index", new { showAllRestaurants = true, sortOrder = ViewBag.SortNameParam, currentFilter = ViewBag.CurrentFilter }) </th>
+        <th>Address</th>
+        <th>Phone Number</th>
+    </tr>
+
+    @foreach (var restaurant in Model.Restaurants)
+    {
+        <tr>
+            <td>
+                @restaurant.Town.Name
+            </td>
+            <td>
+                @Html.ActionLink(@restaurant.Name, "Index", "Food", new { restaurantName = restaurant.Name }, null)
+            </td>
+            <td>
+                @restaurant.Address
+            </td>
+            <td>
+                @restaurant.PhoneNumber
+            </td>
+        </tr>
+    }
+</table>
+}   
